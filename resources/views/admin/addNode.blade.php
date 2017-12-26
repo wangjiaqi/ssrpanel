@@ -6,18 +6,7 @@
 @section('title', '控制面板')
 @section('content')
     <!-- BEGIN CONTENT BODY -->
-    <div class="page-content">
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="{{url('admin/nodeList')}}">节点管理</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <a href="{{url('admin/addNode')}}">添加节点</a>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
+    <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="row">
             <div class="col-md-12">
@@ -154,6 +143,7 @@
                                                             <select class="form-control" name="single_protocol" id="single_protocol">
                                                                 <option value="auth_aes128_md5" selected>auth_aes128_md5</option>
                                                                 <option value="auth_aes128_sha1">auth_aes128_sha1</option>
+                                                                <option value="auth_chain_a">auth_chain_a</option>
                                                             </select>
                                                             <span class="help-block"> 展示和生成配置用，后端配置注意保持一致 </span>
                                                         </div>
@@ -263,14 +253,9 @@
                                 </div>
                                 <div class="form-actions">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-offset-11 col-md-4">
-                                                    <button type="submit" class="btn green">提 交</button>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-offset-6">
+                                            <button type="submit" class="btn green">提 交</button>
                                         </div>
-                                        <div class="col-md-6"> </div>
                                     </div>
                                 </div>
                             </form>

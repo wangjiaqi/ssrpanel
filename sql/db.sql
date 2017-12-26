@@ -66,7 +66,7 @@ CREATE TABLE `ss_node_info` (
   `log_time` int(11) NOT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`),
   KEY `idx_node_id` (`node_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='节点负载信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='节点负载信息';
 
 
 -- ----------------------------
@@ -79,7 +79,7 @@ CREATE TABLE `ss_node_online_log` (
   `log_time` int(11) NOT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`),
   KEY `idx_node_id` (`node_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='节点在线信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='节点在线信息';
 
 
 -- ----------------------------
@@ -150,7 +150,7 @@ CREATE TABLE `level` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- ----------------------------
@@ -180,7 +180,7 @@ CREATE TABLE `user_traffic_log` (
   KEY `idx_user` (`user_id`),
   KEY `idx_node` (`node_id`),
   KEY `idx_user_node` (`user_id`,`node_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- ----------------------------
@@ -196,7 +196,7 @@ CREATE TABLE `ss_config` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of ss_config
@@ -234,6 +234,9 @@ INSERT INTO `ss_config` VALUES ('30', 'http_simple', '3', '0', '0', '2017-08-01 
 INSERT INTO `ss_config` VALUES ('31', 'http_post', '3', '0', '0', '2017-08-01 13:29:38', '2017-08-01 13:29:38');
 INSERT INTO `ss_config` VALUES ('32', 'tls1.2_ticket_auth', '3', '1', '0', '2017-08-01 13:29:51', '2017-08-01 13:29:51');
 INSERT INTO `ss_config` VALUES ('33', 'tls1.2_ticket_fastauth', '3', '0', '0', '2017-08-01 14:02:19', '2017-08-01 14:02:19');
+INSERT INTO `ss_config` VALUES ('34', 'auth_chain_c', '2', '0', '0', '2017-08-01 14:02:31', '2017-08-01 14:02:31');
+INSERT INTO `ss_config` VALUES ('35', 'auth_chain_d', '2', '0', '0', '2017-08-01 14:02:31', '2017-08-01 14:02:31');
+INSERT INTO `ss_config` VALUES ('36', 'auth_chain_f', '2', '0', '0', '2017-08-01 14:02:31', '2017-08-01 14:02:31');
 
 
 -- ----------------------------
@@ -244,7 +247,7 @@ CREATE TABLE `config` (
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '配置名',
   `value` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='系统配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统配置';
 
 
 -- ----------------------------
@@ -288,6 +291,13 @@ INSERT INTO `config` VALUES ('35', 'traffic_ban_time', 60);
 INSERT INTO `config` VALUES ('36', 'is_clear_log', 1);
 INSERT INTO `config` VALUES ('37', 'is_node_crash_warning', 0);
 INSERT INTO `config` VALUES ('38', 'crash_warning_email', '');
+INSERT INTO `config` VALUES ('39', 'is_server_chan', 0);
+INSERT INTO `config` VALUES ('40', 'server_chan_key', '');
+INSERT INTO `config` VALUES ('41', 'is_subscribe_ban', 1);
+INSERT INTO `config` VALUES ('42', 'subscribe_ban_times', 20);
+INSERT INTO `config` VALUES ('43', 'paypal_status', 0);
+INSERT INTO `config` VALUES ('44', 'paypal_client_id', '');
+INSERT INTO `config` VALUES ('45', 'paypal_client_secret', '');
 
 
 -- ----------------------------
@@ -304,7 +314,7 @@ CREATE TABLE `article` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -330,7 +340,7 @@ CREATE TABLE `article_log` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- ----------------------------
@@ -346,7 +356,7 @@ CREATE TABLE `invite` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='邀请码表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='邀请码表';
 
 
 -- ----------------------------
@@ -361,7 +371,7 @@ CREATE TABLE `verify` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- ----------------------------
@@ -374,7 +384,7 @@ CREATE TABLE `ss_group` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- ----------------------------
@@ -385,7 +395,7 @@ CREATE TABLE `ss_group_node` (
   `group_id` int(11) NOT NULL DEFAULT '0' COMMENT '分组ID',
   `node_id` int(11) NOT NULL DEFAULT '0' COMMENT '节点ID',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='分组节点关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='分组节点关系表';
 
 
 -- ----------------------------
@@ -406,7 +416,7 @@ CREATE TABLE `goods` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品信息表';
 
 
 -- ----------------------------
@@ -417,7 +427,7 @@ CREATE TABLE `coupon` (
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '优惠券名称',
   `logo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '优惠券LOGO',
   `sn` char(8) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '优惠券码',
-  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '类型：1-现金优惠、2-折扣优惠',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '类型：1-现金券、2-折扣券、3-充值券',
   `usage` tinyint(4) NOT NULL DEFAULT '1' COMMENT '用途：1-仅限一次性使用、2-可重复使用',
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '金额，单位分',
   `discount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '折扣',
@@ -428,7 +438,7 @@ CREATE TABLE `coupon` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券';
 
 
 -- ----------------------------
@@ -442,7 +452,7 @@ CREATE TABLE `coupon_log` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券使用日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券使用日志';
 
 
 -- ----------------------------
@@ -452,12 +462,16 @@ CREATE TABLE `order` (
   `oid` int(11) NOT NULL AUTO_INCREMENT,
   `orderId` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作人',
+  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品ID',
   `coupon_id` int(11) NOT NULL DEFAULT '0' COMMENT '优惠券ID',
   `totalOriginalPrice` int(11) NOT NULL DEFAULT '0' COMMENT '订单原始总价，单位分',
   `totalPrice` int(11) NOT NULL DEFAULT '0' COMMENT '订单总价，单位分',
+  `expire_at` datetime DEFAULT NULL COMMENT '过期时间',
+  `is_expire` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已过期：0-未过期、1-已过期',
+  `pay_way` tinyint(4) NOT NULL DEFAULT '1' COMMENT '支付方式：1-余额支付、2-PayPal',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '订单状态：-1-已关闭、0-待支付、1-已支付待确认、2-已完成',
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
+  `updated_at` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`oid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单信息表';
 
@@ -521,7 +535,7 @@ CREATE TABLE `user_score_log` (
   `created_at` datetime DEFAULT NULL COMMENT '创建日期',
   PRIMARY KEY (`id`),
   KEY `idx` (`user_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -554,7 +568,7 @@ CREATE TABLE `referral_apply` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='提现申请';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='提现申请';
 
 
 -- ----------------------------
@@ -586,7 +600,7 @@ CREATE TABLE `email_log` (
   `error` text COMMENT '发送失败抛出的异常信息',
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='邮件投递记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='邮件投递记录';
 
 
 -- ----------------------------
@@ -598,6 +612,8 @@ CREATE TABLE `user_subscribe` (
   `code` varchar(255) DEFAULT '' COMMENT '订阅地址唯一识别码',
   `times` int(11) NOT NULL DEFAULT '0' COMMENT '地址请求次数',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态：0-禁用、1-启用',
+  `ban_time` int(11) NOT NULL DEFAULT '0' COMMENT '封禁时间',
+  `ban_desc` varchar(50) NOT NULL DEFAULT '' COMMENT '封禁理由',
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
@@ -633,7 +649,7 @@ CREATE TABLE `user_traffic_daily` (
   PRIMARY KEY (`id`),
   KEY `idx_user` (`user_id`) USING BTREE,
   KEY `idx_user_node` (`user_id`,`node_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -652,7 +668,7 @@ CREATE TABLE `user_traffic_hourly` (
   PRIMARY KEY (`id`),
   KEY `idx_user` (`user_id`) USING BTREE,
   KEY `idx_user_node` (`user_id`,`node_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -669,7 +685,7 @@ CREATE TABLE `ss_node_traffic_daily` (
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_node_id` (`node_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -686,7 +702,7 @@ CREATE TABLE `ss_node_traffic_hourly` (
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_node_id` (`node_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- ----------------------------
@@ -701,7 +717,7 @@ CREATE TABLE `user_ban_log` (
   `created_at` datetime DEFAULT NULL COMMENT ' 创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户封禁日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户封禁日志';
 
 
 -- ----------------------------
@@ -712,7 +728,7 @@ CREATE TABLE `country` (
   `country_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名称',
   `country_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '代码',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of country
@@ -763,6 +779,18 @@ INSERT INTO `country` VALUES ('43', '冰岛', 'is');
 INSERT INTO `country` VALUES ('44', '芬兰', 'fi');
 INSERT INTO `country` VALUES ('45', '卢森堡', 'lu');
 INSERT INTO `country` VALUES ('46', '比利时', 'be');
+INSERT INTO `country` VALUES ('47', '保加利亚', 'bg');
+INSERT INTO `country` VALUES ('48', '立陶宛', 'lt');
+INSERT INTO `country` VALUES ('49', '哥伦比亚', 'co');
+INSERT INTO `country` VALUES ('50', '澳门', 'mo');
+INSERT INTO `country` VALUES ('51', '肯尼亚', 'ke');
+INSERT INTO `country` VALUES ('52', '捷克', 'cz');
+INSERT INTO `country` VALUES ('53', '摩尔多瓦', 'md');
+INSERT INTO `country` VALUES ('54', '西班牙', 'es');
+INSERT INTO `country` VALUES ('55', '巴基斯坦', 'pk');
+INSERT INTO `country` VALUES ('56', '葡萄牙', 'pt');
+INSERT INTO `country` VALUES ('57', '匈牙利', 'hu');
+INSERT INTO `country` VALUES ('58', '阿根廷', 'ar');
 
 
 CREATE TABLE `payment` (

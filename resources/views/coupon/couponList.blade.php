@@ -12,15 +12,7 @@
 @section('title', '控制面板')
 @section('content')
     <!-- BEGIN CONTENT BODY -->
-    <div class="page-content">
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="{{url('coupon/couponList')}}">卡券管理</a>
-                <i class="fa fa-circle"></i>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
+    <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="row">
             <div class="col-md-12">
@@ -49,8 +41,9 @@
                                 <tr>
                                     <th> ID </th>
                                     <th> 名称 </th>
-                                    <th> LOGO </th>
                                     <th> 券码 </th>
+                                    <th> LOGO </th>
+                                    <th> 类型 </th>
                                     <th> 用途 </th>
                                     <th> 优惠 </th>
                                     <th> 有效期 </th>
@@ -61,18 +54,27 @@
                                 <tbody>
                                 @if($couponList->isEmpty())
                                     <tr>
-                                        <td colspan="9">暂无数据</td>
+                                        <td colspan="10">暂无数据</td>
                                     </tr>
                                 @else
                                     @foreach($couponList as $coupon)
                                         <tr class="odd gradeX">
                                             <td> {{$coupon->id}} </td>
                                             <td> {{$coupon->name}} </td>
-                                            <td> @if($coupon->logo) <a href="{{$coupon->logo}}" class="fancybox"><img src="{{$coupon->logo}}"/></a> @endif </td>
                                             <td> <span class="label label-info">{{$coupon->sn}}</span> </td>
-                                            <td> {{$coupon->usage == '1' ? '一次性' : '可重复'}} </td>
+                                            <td> @if($coupon->logo) <a href="{{$coupon->logo}}" class="fancybox"><img src="{{$coupon->logo}}"/></a> @endif </td>
                                             <td>
                                                 @if($coupon->type == '1')
+                                                    抵用券
+                                                @elseif($coupon->type == '2')
+                                                    折扣券
+                                                @else
+                                                    充值券
+                                                @endif
+                                            </td>
+                                            <td> {{$coupon->usage == '1' ? '一次性' : '可重复'}} </td>
+                                            <td>
+                                                @if($coupon->type == '1' || $coupon->type == '3')
                                                     {{$coupon->amount}}元
                                                 @else
                                                     {{$coupon->discount * 10}}折
@@ -91,7 +93,9 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-sm red btn-outline" onclick="delCoupon('{{$coupon->id}}')">删除</button>
+                                                @if($coupon->status != '1')
+                                                    <button type="button" class="btn btn-sm red btn-outline" onclick="delCoupon('{{$coupon->id}}')">删除</button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

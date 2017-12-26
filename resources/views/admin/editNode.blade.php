@@ -6,18 +6,7 @@
 @section('title', '控制面板')
 @section('content')
     <!-- BEGIN CONTENT BODY -->
-    <div class="page-content">
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="{{url('admin/nodeList')}}">节点管理</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <a href="javascript:;">编辑节点</a>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
+    <div class="page-content" style="padding-top:0;">
         <div class="row">
             <div class="col-md-12">
                 <!-- BEGIN PAGE BASE CONTENT -->
@@ -48,7 +37,7 @@
                                                     <div class="form-group">
                                                         <label for="server" class="col-md-3 control-label"> 服务器地址 </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="server" value="{{$node->server}}" id="server" placeholder="" required>
+                                                            <input type="text" class="form-control" name="server" value="{{$node->server}}" id="server" placeholder="域名或IP地址" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -150,8 +139,9 @@
                                                         <label for="single_protocol" class="col-md-3 control-label">[单] 协议</label>
                                                         <div class="col-md-8">
                                                             <select class="form-control" name="single_protocol" id="single_protocol">
-                                                                <option value="auth_aes128_md5" {{!$node->single_protocol == 'auth_aes128_md5' ? 'selected' : ''}}>auth_aes128_md5</option>
-                                                                <option value="auth_aes128_sha1" {{!$node->single_protocol == 'auth_aes128_sha1' ? 'selected' : ''}}>auth_aes128_sha1</option>
+                                                                <option value="auth_aes128_md5" {{$node->single_protocol == 'auth_aes128_md5' ? 'selected' : ''}}>auth_aes128_md5</option>
+                                                                <option value="auth_aes128_sha1" {{$node->single_protocol == 'auth_aes128_sha1' ? 'selected' : ''}}>auth_aes128_sha1</option>
+                                                                <option value="auth_chain_a" {{$node->single_protocol == 'auth_chain_a' ? 'selected' : ''}}>auth_chain_a</option>
                                                             </select>
                                                             <span class="help-block"> 展示和生成配置用，后端配置注意保持一致 </span>
                                                         </div>
@@ -261,14 +251,9 @@
                                 </div>
                                 <div class="form-actions">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-offset-11 col-md-4">
-                                                    <button type="submit" class="btn green">提 交</button>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-offset-6">
+                                            <button type="submit" class="btn green">提 交</button>
                                         </div>
-                                        <div class="col-md-6"> </div>
                                     </div>
                                 </div>
                             </form>

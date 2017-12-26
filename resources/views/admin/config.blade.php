@@ -7,18 +7,7 @@
 @section('title', '控制面板')
 @section('content')
     <!-- BEGIN CONTENT BODY -->
-    <div class="page-content">
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="javascript:;">设置</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <a href="{{url('admin/config')}}">通用配置</a>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
+    <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="row">
             <div class="col-md-12">
@@ -60,7 +49,6 @@
                                     <table class="table table-striped table-bordered table-hover table-checkable order-column">
                                         <thead>
                                             <tr>
-                                                <th> ID </th>
                                                 <th> 名称 </th>
                                                 <th> 操作 </th>
                                             </tr>
@@ -68,12 +56,11 @@
                                         <tbody>
                                         @if($method_list->isEmpty())
                                             <tr>
-                                                <td colspan="3">暂无数据</td>
+                                                <td colspan="2">暂无数据</td>
                                             </tr>
                                         @else
                                             @foreach($method_list as $method)
                                                 <tr class="odd gradeX">
-                                                    <td> {{$method->id}} </td>
                                                     <td> {{$method->name}} @if($method->is_default) <small><span class='label label-info label-sm'>默认</span></small> @endif </td>
                                                     <td>
                                                         @if(!$method->is_default)
@@ -98,7 +85,6 @@
                                     <table class="table table-striped table-bordered table-hover table-checkable order-column">
                                         <thead>
                                             <tr>
-                                                <th> ID </th>
                                                 <th> 名称 </th>
                                                 <th> 操作 </th>
                                             </tr>
@@ -106,12 +92,11 @@
                                         <tbody>
                                         @if($method_list->isEmpty())
                                             <tr>
-                                                <td colspan="3">暂无数据</td>
+                                                <td colspan="2">暂无数据</td>
                                             </tr>
                                         @else
                                             @foreach($protocol_list as $protocol)
                                                 <tr class="odd gradeX">
-                                                    <td> {{$protocol->id}} </td>
                                                     <td> {{$protocol->name}} @if($protocol->is_default) <small><span class='label label-info label-sm'>默认</span></small> @endif </td>
                                                     <td>
                                                         @if(!$protocol->is_default)
@@ -136,7 +121,6 @@
                                     <table class="table table-striped table-bordered table-hover table-checkable order-column">
                                         <thead>
                                         <tr>
-                                            <th> ID </th>
                                             <th> 名称 </th>
                                             <th> 操作 </th>
                                         </tr>
@@ -144,12 +128,11 @@
                                         <tbody>
                                         @if($obfs_list->isEmpty())
                                             <tr>
-                                                <td colspan="3">暂无数据</td>
+                                                <td colspan="2">暂无数据</td>
                                             </tr>
                                         @else
                                             @foreach($obfs_list as $obfs)
                                                 <tr class="odd gradeX">
-                                                    <td> {{$obfs->id}} </td>
                                                     <td> {{$obfs->name}} @if($obfs->is_default) <small><span class='label label-info label-sm'>默认</span></small> @endif </td>
                                                     <td>
                                                         @if(!$obfs->is_default)

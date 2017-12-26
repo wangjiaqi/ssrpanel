@@ -8,18 +8,7 @@
 @section('title', '控制面板')
 @section('content')
     <!-- BEGIN CONTENT BODY -->
-    <div class="page-content">
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="javascript:;">设置</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <a href="{{url('admin/config')}}">系统配置</a>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
+    <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="row">
             <div class="col-md-12">
@@ -46,7 +35,13 @@
                                             <a href="#tab_5" data-toggle="tab"> 警告提醒设置 </a>
                                         </li>
                                         <li>
-                                            <a href="#tab_6" data-toggle="tab"> 充值二维码设置 </a>
+                                            <a href="#tab_6" data-toggle="tab"> 自动化任务 </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_7" data-toggle="tab"> 充值二维码设置 </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab_8" data-toggle="tab"> PayPal接口设置 </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -135,7 +130,7 @@
                                                             <label for="is_rand_port" class="col-md-3 control-label">随机端口</label>
                                                             <div class="col-md-9">
                                                                 <input type="checkbox" class="make-switch" @if($is_rand_port) checked @endif id="is_rand_port" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
-                                                                <span class="help-block"> 注册、添加账号时随机生成端口 </span>
+                                                                <span class="help-block"> 注册、添加用户时随机生成端口 </span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -237,17 +232,6 @@
                                                                 </div>
                                                                 <span class="help-block"> 客户端订阅时随机取得几个节点 </span>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6">
-                                                            <label for="is_clear_log" class="col-md-3 control-label">自动清除日志</label>
-                                                            <div class="col-md-9">
-                                                                <input type="checkbox" class="make-switch" @if($is_clear_log) checked @endif id="is_clear_log" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
-                                                                <span class="help-block"> 启用后自动清除无用日志（推荐） </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -355,23 +339,7 @@
                                                 <div class="portlet-body">
                                                     <div class="form-group">
                                                         <div class="col-md-6">
-                                                            <label for="reset_traffic" class="col-md-3 control-label">流量自动重置</label>
-                                                            <div class="col-md-9">
-                                                                <input type="checkbox" class="make-switch" @if($reset_traffic) checked @endif id="reset_traffic" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
-                                                                <span class="help-block"> 账号会按其购买套餐的日期自动重置账号可用流量 </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="is_traffic_ban" class="col-md-3 control-label">异常自动封号</label>
-                                                            <div class="col-md-9">
-                                                                <input type="checkbox" class="make-switch" @if($is_traffic_ban) checked @endif id="is_traffic_ban" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
-                                                                <span class="help-block"> 24小时内流量超过异常阈值则自动封号 </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6">
-                                                            <label for="expire_warning" class="col-md-3 control-label">过期警告</label>
+                                                            <label for="expire_warning" class="col-md-3 control-label">用户过期警告</label>
                                                             <div class="col-md-9">
                                                                 <input type="checkbox" class="make-switch" @if($expire_warning) checked @endif id="expire_warning" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
                                                                 <span class="help-block"> 启用后账号距到期还剩阈值设置的值时自动发邮件提醒用户 </span>
@@ -393,7 +361,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-6">
-                                                            <label for="traffic_warning" class="col-md-3 control-label">流量警告</label>
+                                                            <label for="traffic_warning" class="col-md-3 control-label">用户流量警告</label>
                                                             <div class="col-md-9">
                                                                 <input type="checkbox" class="make-switch" @if($traffic_warning) checked @endif id="traffic_warning" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
                                                                 <span class="help-block"> 启用后账号已使用流量超过警告阈值时自动发邮件提醒用户 </span>
@@ -415,6 +383,98 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-6">
+                                                            <label for="is_node_crash_warning" class="col-md-3 control-label">节点宕机警告</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_node_crash_warning) checked @endif id="is_node_crash_warning" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 启用后如果节点宕机则发出提醒邮件 </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="crash_warning_email" class="col-md-3 control-label">宕机收信地址</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="crash_warning_email" value="{{$crash_warning_email}}" id="crash_warning_email" placeholder="master@ssrpanel.com" />
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-success" type="button" onclick="setCrashWarningEmail()">修改</button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="help-block"> 启用节点宕机提醒时请务必配置本值 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="is_server_chan" class="col-md-3 control-label">ServerChan</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_server_chan) checked @endif id="is_server_chan" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 启用后将使用ServerChan推送节点宕机提醒（<a href="http://sc.ftqq.com" target="_blank">绑定微信</a>） </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="server_chan_key" class="col-md-3 control-label">SCKEY</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="server_chan_key" value="{{$server_chan_key}}" id="server_chan_key" placeholder="请到ServerChan申请" />
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-success" type="button" onclick="setServerChanKey()">修改</button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="help-block"> 启用ServerChan，请务必填入本值（<a href="http://sc.ftqq.com" target="_blank">申请SCKEY</a>） </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane" id="tab_6">
+                                            <form action="#" method="post" class="form-horizontal">
+                                                <div class="portlet-body">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="is_clear_log" class="col-md-3 control-label">自动清除日志</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_clear_log) checked @endif id="is_clear_log" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 启用后自动清除无用日志（推荐） </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="reset_traffic" class="col-md-3 control-label">流量自动重置</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($reset_traffic) checked @endif id="reset_traffic" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 用户会按其购买套餐的日期自动重置可用流量 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="is_subscribe_ban" class="col-md-3 control-label">订阅异常自动封禁</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_subscribe_ban) checked @endif id="is_subscribe_ban" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 启用后用户订阅链接请求超过设定阈值则自动封禁 </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="subscribe_ban_times" class="col-md-3 control-label">订阅请求阈值</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="subscribe_ban_times" value="{{$subscribe_ban_times}}" id="subscribe_ban_times" />
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-success" type="button" onclick="setSubscribeBanTimes()">修改</button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="help-block"> 24小时内订阅链接请求次数限制 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="is_traffic_ban" class="col-md-3 control-label">异常自动封号</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_traffic_ban) checked @endif id="is_traffic_ban" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 24小时内流量超过异常阈值则自动封号 </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <label for="traffic_ban_value" class="col-md-3 control-label">流量异常阈值</label>
                                                             <div class="col-md-9">
                                                                 <div class="input-group">
@@ -427,6 +487,8 @@
                                                                 <span class="help-block"> 24小时内超过该值，则触发自动封号 </span>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <div class="col-md-6">
                                                             <label for="traffic_ban_time" class="col-md-3 control-label">封号时长</label>
                                                             <div class="col-md-9">
@@ -437,36 +499,16 @@
                                                                         <button class="btn btn-success" type="button" onclick="setTrafficBanTime()">修改</button>
                                                                     </span>
                                                                 </div>
-                                                                <span class="help-block"> 触发流量异常导致账号被封禁的时长，到期后自动解封 </span>
+                                                                <span class="help-block"> 触发流量异常导致用户被封禁的时长，到期后自动解封 </span>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-6"></div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6">
-                                                            <label for="is_node_crash_warning" class="col-md-3 control-label">节点宕机警告</label>
-                                                            <div class="col-md-9">
-                                                                <input type="checkbox" class="make-switch" @if($is_node_crash_warning) checked @endif id="is_node_crash_warning" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
-                                                                <span class="help-block"> 启用如果节点宕机则会发邮件提醒管理员 </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="crash_warning_email" class="col-md-3 control-label">宕机警告收信地址</label>
-                                                            <div class="col-md-9">
-                                                                <div class="input-group">
-                                                                    <input class="form-control" type="text" name="crash_warning_email" value="{{$crash_warning_email}}" id="crash_warning_email" placeholder="master@ssrpanel.com" />
-                                                                    <span class="input-group-addon">分钟</span>
-                                                                    <span class="input-group-btn">
-                                                                        <button class="btn btn-success" type="button" onclick="setCrashWarningEmail()">修改</button>
-                                                                    </span>
-                                                                </div>
-                                                                <span class="help-block"> 如果启用节点宕机警告提醒，请务必配置本值 </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="tab-pane" id="tab_6">
+                                        <div class="tab-pane" id="tab_7">
                                             <form action="{{url('admin/setQrcode')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                                 <div class="form-body">
                                                     <div class="portlet-body">
@@ -494,9 +536,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6"></div>
-                                                        </div>
-                                                        <div class="form-group">
                                                             <div class="col-md-6">
                                                                 <label class="control-label col-md-3">支付宝</label>
                                                                 <div class="col-md-9">
@@ -520,15 +559,54 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-actions">
                                                     <div class="row">
-                                                        <div class="col-md-offset-2 col-md-9">
+                                                        <div class="col-md-offset-6">
                                                             <input type="hidden" name="_token" value="{{csrf_token()}}" />
                                                             <button type="submit" class="btn green">提 交</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane" id="tab_8">
+                                            <form action="#" method="post" class="form-horizontal">
+                                                <div class="portlet-body">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="paypal_status" class="col-md-3 control-label">本功能</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($paypal_status) checked @endif id="paypal_status" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 启用前请先去PayPal申请ClientID和ClientSecret </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+                                                            <label for="paypal_client_id" class="col-md-3 control-label">ClientID</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="paypal_client_id" value="{{$paypal_client_id}}" id="paypal_client_id" />
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-success" type="button" onclick="setPaypalClientID()">修改</button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="paypal_client_secret" class="col-md-3 control-label">ClientSecret</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="paypal_client_secret" value="{{$paypal_client_secret}}" id="paypal_client_secret" />
+                                                                    <span class="input-group-btn">
+                                                                    <button class="btn btn-success" type="button" onclick="setPaypalClientSecret()">修改</button>
+                                                                </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -559,7 +637,11 @@
                 var is_rand_port = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_rand_port', value:is_rand_port}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -570,7 +652,11 @@
                 var is_user_rand_port = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_user_rand_port', value:is_user_rand_port}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -581,7 +667,11 @@
                 var login_add_score = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'login_add_score', value:login_add_score}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -592,7 +682,11 @@
                 var is_register = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_register', value:is_register}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -603,7 +697,11 @@
                 var is_invite_register = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_invite_register', value:is_invite_register}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -614,11 +712,11 @@
                 var is_reset_password = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_reset_password', value:is_reset_password}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
@@ -629,41 +727,41 @@
                 var is_captcha = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_captcha', value:is_captcha}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
 
-        // 启用、禁用用户激活账号
+        // 启用、禁用用户激活用户
         $('#is_active_register').on({
             'switchChange.bootstrapSwitch': function(event, state) {
                 var is_active_register = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_active_register', value:is_active_register}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
 
-        // 启用、禁用账号到期自动邮件提醒
+        // 启用、禁用用户到期自动邮件提醒
         $('#expire_warning').on({
             'switchChange.bootstrapSwitch': function(event, state) {
                 var expire_warning = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'expire_warning', value:expire_warning}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
@@ -674,11 +772,41 @@
                 var is_node_crash_warning = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_node_crash_warning', value:is_node_crash_warning}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
+                });
+            }
+        });
+
+        // 启用、禁用节点宕机发ServerChan微信消息提醒
+        $('#is_server_chan').on({
+            'switchChange.bootstrapSwitch': function(event, state) {
+                var is_server_chan = state ? 1 : 0;
+
+                $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_server_chan', value:is_server_chan}, function (ret) {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        // 启用、禁用订阅异常自动封禁
+        $('#is_subscribe_ban').on({
+            'switchChange.bootstrapSwitch': function(event, state) {
+                var is_subscribe_ban = state ? 1 : 0;
+
+                $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_subscribe_ban', value:is_subscribe_ban}, function (ret) {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -689,11 +817,11 @@
                 var referral_status = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'referral_status', value:referral_status}, function (ret) {
-                    if (ret.status == 'fail') {
-                        layer.msg(ret.message, {time:1000}, function() {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
                             window.location.reload();
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
@@ -704,7 +832,11 @@
                 var traffic_warning = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'traffic_warning', value:traffic_warning}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -715,7 +847,11 @@
                 var is_clear_log = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_clear_log', value:is_clear_log}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -726,7 +862,11 @@
                 var reset_traffic = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'reset_traffic', value:reset_traffic}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -737,7 +877,26 @@
                 var is_traffic_ban = state ? 1 : 0;
 
                 $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_traffic_ban', value:is_traffic_ban}, function (ret) {
-                    console.log(ret);
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        // 启用、禁用PayPal支付接口
+        $('#paypal_status').on({
+            'switchChange.bootstrapSwitch': function(event, state) {
+                var paypal_status = state ? 1 : 0;
+
+                $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'paypal_status', value:paypal_status}, function (ret) {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
                 });
             }
         });
@@ -747,24 +906,24 @@
             var traffic_ban_value = $("#traffic_ban_value").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'traffic_ban_value', value:traffic_ban_value}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
-        // 设置账号封号时长
+        // 设置用户封号时长
         function setTrafficBanTime() {
             var traffic_ban_time = $("#traffic_ban_time").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'traffic_ban_time', value:traffic_ban_time}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -773,11 +932,63 @@
             var crash_warning_email = $("#crash_warning_email").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'crash_warning_email', value:crash_warning_email}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
+            });
+        }
+
+        // 设置ServerChan的SCKEY
+        function setServerChanKey() {
+            var server_chan_key = $("#server_chan_key").val();
+
+            $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'server_chan_key', value:server_chan_key}, function (ret) {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+
+        // 设置订阅封禁阈值
+        function setSubscribeBanTimes() {
+            var subscribe_ban_times = $("#subscribe_ban_times").val();
+
+            $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'subscribe_ban_times', value:subscribe_ban_times}, function (ret) {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+
+        // 设置PayPal的ClientID
+        function setPaypalClientID() {
+            var paypal_client_id = $("#paypal_client_id").val();
+
+            $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'paypal_client_id', value:paypal_client_id}, function (ret) {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+
+        // 设置PayPal的ClientSecret
+        function setPaypalClientSecret() {
+            var paypal_client_secret = $("#paypal_client_secret").val();
+
+            $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'paypal_client_secret', value:paypal_client_secret}, function (ret) {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
+                        window.location.reload();
+                    }
+                });
             });
         }
 
@@ -855,11 +1066,11 @@
             var default_days = $("#default_days").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'default_days', value:default_days}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -868,11 +1079,11 @@
             var default_traffic = $("#default_traffic").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'default_traffic', value:default_traffic}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -881,11 +1092,11 @@
             var invite_num = $("#invite_num").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'invite_num', value:invite_num}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -894,24 +1105,24 @@
             var reset_password_times = $("#reset_password_times").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'reset_password_times', value:reset_password_times}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
-        // 设置激活账号次数
+        // 设置激活用户次数
         function setActiveTimes() {
             var active_times = $("#active_times").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'active_times', value:active_times}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -920,11 +1131,11 @@
             var subscribe_max = $("#subscribe_max").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'subscribe_max', value:subscribe_max}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -933,24 +1144,24 @@
             var traffic_warning_percent = $("#traffic_warning_percent").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'traffic_warning_percent', value:traffic_warning_percent}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
-        // 设置账号过期提醒阈值
+        // 设置用户过期提醒阈值
         function setExpireDays() {
             var expire_days = $("#expire_days").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'expire_days', value:expire_days}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -959,11 +1170,11 @@
             var website_name = $("#website_name").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'website_name', value:website_name}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -972,11 +1183,11 @@
             var website_url = $("#website_url").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'website_url', value:website_url}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -985,11 +1196,11 @@
             var login_add_score_range = $("#login_add_score_range").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'login_add_score_range', value:login_add_score_range}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -998,11 +1209,11 @@
             var referral_traffic = $("#referral_traffic").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'referral_traffic', value:referral_traffic}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -1011,11 +1222,11 @@
             var referral_percent = $("#referral_percent").val();
 
             $.post("{{url('admin/setReferralPercent')}}", {_token:'{{csrf_token()}}', value:referral_percent}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
 
@@ -1024,11 +1235,11 @@
             var referral_money = $("#referral_money").val();
 
             $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'referral_money', value:referral_money}, function (ret) {
-                if (ret.status == 'success') {
-                    layer.msg(ret.message, {time:1000}, function() {
+                layer.msg(ret.message, {time:1000}, function() {
+                    if (ret.status == 'fail') {
                         window.location.reload();
-                    });
-                }
+                    }
+                });
             });
         }
     </script>

@@ -27,6 +27,7 @@ class ShopController extends Controller
         $goodsList = Goods::query()->where('is_del', 0)->orderBy('id', 'desc')->paginate(10);
         foreach ($goodsList as $goods) {
             $goods->price = $goods->price / 100;
+            $goods->traffic = $this->flowAutoShow($goods->traffic * 1048576);
         }
 
         $view['goodsList'] = $goodsList;
@@ -49,6 +50,13 @@ class ShopController extends Controller
 
             if (empty($name) || empty($traffic) || $price == '') {
                 $request->session()->flash('errorMsg', '请填写完整');
+
+                return Redirect::back()->withInput();
+            }
+
+            // 套餐有效天数必须大于30天
+            if ($type == 2 && $days < 30) {
+                $request->session()->flash('errorMsg', '套餐有效天数必须不能少于30天');
 
                 return Redirect::back()->withInput();
             }
