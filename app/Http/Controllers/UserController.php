@@ -79,7 +79,7 @@ class UserController extends Controller
             $ssr_str = '';
             $ssr_str .= $node->server . ':' . ($node->single ? $node->single_port : $user->port);
             $ssr_str .= ':' . ($node->single ? $node->single_protocol : $user->protocol) . ':' . ($node->single ? $node->single_method : $user->method);
-            $ssr_str .= ':' . ($node->single ? 'tls1.2_ticket_auth' : $user->obfs) . ':' . ($node->single ? $this->base64url_encode($node->single_passwd) : $this->base64url_encode($user->passwd));
+            $ssr_str .= ':' . ($node->single ? $node->single_obfs : $user->obfs) . ':' . ($node->single ? $this->base64url_encode($node->single_passwd) : $this->base64url_encode($user->passwd));
             $ssr_str .= '/?obfsparam=' . ($node->single ? '' : $this->base64url_encode($obfs_param));
             $ssr_str .= '&protoparam=' . ($node->single ? $this->base64url_encode($user->port . ':' . $user->passwd) : $this->base64url_encode($protocol_param));
             $ssr_str .= '&remarks=' . $this->base64url_encode($node->name);
@@ -103,7 +103,7 @@ class UserController extends Controller
             $txt .= "加密方法：" . ($node->single ? $node->single_method : $user->method) . "\r\n";
             $txt .= "协议：" . ($node->single ? $node->single_protocol : $user->protocol) . "\r\n";
             $txt .= "协议参数：" . ($node->single ? $user->port . ':' . $user->passwd : $user->protocol_param) . "\r\n";
-            $txt .= "混淆方式：" . ($node->single ? 'tls1.2_ticket_auth' : $user->obfs) . "\r\n";
+            $txt .= "混淆方式：" . ($node->single ? $node->single_obfs : $user->obfs) . "\r\n";
             $txt .= "混淆参数：" . ($node->single ? '' : $user->obfs_param) . "\r\n";
             $txt .= "本地端口：1080\r\n路由：绕过局域网及中国大陆地址";
 
@@ -379,6 +379,15 @@ class UserController extends Controller
         $view['inviteList'] = Invite::query()->where('uid', $user['id'])->with(['generator', 'user'])->paginate(10); // 邀请码列表
 
         return Response::view('user/invite', $view);
+    }
+
+    // 公开的邀请码列表
+    public function free(Request $request)
+    {
+        $view['is_invite_register'] = self::$config['is_invite_register'];
+        $view['inviteList'] = Invite::query()->where('uid', 1)->where('status', 0)->paginate();
+
+        return Response::view('user/free', $view);
     }
 
     // 生成邀请码
@@ -833,6 +842,7 @@ class UserController extends Controller
             $goods->price = $goods->price / 100;
             $goods->traffic = $this->flowAutoShow($goods->traffic * 1048576);
             $view['goods'] = $goods;
+            $view['paypal_status'] = self::$config['paypal_status'];
 
             return Response::view('user/addOrder', $view);
         }
